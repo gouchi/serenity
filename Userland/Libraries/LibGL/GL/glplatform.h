@@ -21,6 +21,7 @@
 // Defines types used by all OpenGL applications
 // https://www.khronos.org/opengl/wiki/OpenGL_Type
 typedef char GLchar;
+typedef char GLcharARB;
 typedef char GLbyte;
 typedef unsigned char GLuchar;
 typedef unsigned char GLubyte;
@@ -33,10 +34,17 @@ typedef int GLfixed;
 typedef long long GLint64;
 typedef unsigned long long GLuint64;
 typedef int GLsizei;
+typedef unsigned int GLsizeiptr;
+typedef unsigned int GLsizeiptrARB;
+typedef unsigned int GLintptr;
+typedef unsigned int GLintptrARB;
 typedef void GLvoid;
 typedef float GLfloat;
 typedef double GLclampd;
 typedef float GLclampf;
 typedef double GLdouble;
-typedef unsigned int GLenum;
 typedef unsigned int GLbitfield;
+typedef unsigned int GLenum;
+typedef unsigned int GLhandleARB;
+typedef struct __GLsync *GLsync;
+typedef unsigned long long int GLuint64EXT;

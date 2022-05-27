@@ -246,6 +246,7 @@ extern "C" {
 #define GL_LUMINANCE8_ALPHA8 0x8045
 #define GL_BGR 0x80E0
 #define GL_BGRA 0x80E1
+#define GL_BGRA_EXT 0x80E1
 #define GL_BITMAP 0x1A00
 
 #define GL_LUMINANCE8 0x8040
