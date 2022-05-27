@@ -6,13 +6,14 @@ archive_hash="2af44294e55f5636262284d650cb5fff55c9070ac3a700d4fa55c1f152dcb3f2"
 files="https://github.com/libretro/${port}/archive/refs/tags/v${version}.tar.gz ${port}-${version}.tar.gz $archive_hash"
 auth_type=sha256
 depends=("freetype" "SDL2" "zlib")
+makeopts=("HAVE_OPENGL=0" "HAVE_OPENGL1=1")
 
 configopts=(
     "--disable-builtinglslang"
     "--disable-discord"
     "--disable-glsl"
     "--disable-glslang"
-    "--disable-opengl"
+    "--disable-qt"
     "--disable-slang"
     "--disable-spirv_cross"
     "--disable-systemmbedtls"
@@ -25,6 +26,15 @@ launcher_command=/usr/local/bin/retroarch
 icon_file=media/retroarch.ico
 
 export CFLAGS="-I${SERENITY_INSTALL_ROOT}/usr/include/LibGL -I${SERENITY_INSTALL_ROOT}/usr/local/include/SDL2"
+
+post_configure() {
+    echo "$workdir"
+    run sed -i 's/HAVE_OPENGL = 1/HAVE_OPENGL = 0/' `pwd`/${workdir}/config.mk
+}
+
+build() {
+    run make "${makeopts[@]}"
+}
 
 post_install() {
 echo "==== Post installation instructions ===="
