@@ -1,0 +1,71 @@
+diff --git a/gfx/font_driver.c b/gfx/font_driver.c
+index 615f97b118..ddbee156d0 100644
+--- a/gfx/font_driver.c
++++ b/gfx/font_driver.c
+@@ -183,7 +183,7 @@ static bool gl1_font_init_first(
+ }
+ #endif
+ 
+-#if defined(HAVE_OPENGL)
++#if defined(HAVE_OPENGL) && !defined(HAVE_OPENGL1)
+ static const font_renderer_t *gl_font_backends[] = {
+    &gl_raster_font,
+    NULL,
+@@ -724,7 +724,7 @@ static bool font_init_first(
+          return gl1_font_init_first(font_driver, font_handle,
+                video_data, font_path, font_size, is_threaded);
+ #endif
+-#ifdef HAVE_OPENGL
++#if defined(HAVE_OPENGL) && !defined(HAVE_OPENGL1)
+       case FONT_DRIVER_RENDER_OPENGL_API:
+          return gl_font_init_first(font_driver, font_handle,
+                video_data, font_path, font_size, is_threaded);
+diff --git a/gfx/gfx_display.c b/gfx/gfx_display.c
+index 33a118b1a3..5277117578 100644
+--- a/gfx/gfx_display.c
++++ b/gfx/gfx_display.c
+@@ -96,7 +96,7 @@ static gfx_display_ctx_driver_t *gfx_display_ctx_drivers[] = {
+ #ifdef HAVE_D3D12
+    &gfx_display_ctx_d3d12,
+ #endif
+-#ifdef HAVE_OPENGL
++#if defined(HAVE_OPENGL) && !defined(HAVE_OPENGL1)
+    &gfx_display_ctx_gl,
+ #endif
+ #ifdef HAVE_OPENGL1
+diff --git a/gfx/video_driver.c b/gfx/video_driver.c
+index 8874829635..d524c1a0ba 100644
+--- a/gfx/video_driver.c
++++ b/gfx/video_driver.c
+@@ -273,7 +273,7 @@ const video_driver_t *video_drivers[] = {
+ #ifdef HAVE_VITA2D
+    &video_vita2d,
+ #endif
+-#ifdef HAVE_OPENGL
++#if defined(HAVE_OPENGL) && !defined(HAVE_OPENGL1)
+    &video_gl2,
+ #endif
+ #if defined(HAVE_OPENGL_CORE)
+@@ -446,9 +446,11 @@ video_driver_t *hw_render_context_driver(
+          break;
+ #endif
+       case RETRO_HW_CONTEXT_OPENGL:
+-#ifdef HAVE_OPENGL
++#if defined(HAVE_OPENGL) && !defined(HAVE_OPENGL1)
+          return &video_gl2;
+-#else
++#elif HAVE_OPENGL1
++         return &video_gl1;
++#else
+          break;
+ #endif
+       case RETRO_HW_CONTEXT_DIRECT3D:
+@@ -2345,7 +2347,7 @@ bool video_driver_find_driver(
+                         "gl");
+                   RARCH_LOG("[Video]: \"%s\" saved as cached driver.\n",
+                         settings->arrays.video_driver);
+-                  video_st->current_video = &video_gl2;
++                  video_st->current_video = &video_gl1;
+                   return true;
+                }
+ #endif
